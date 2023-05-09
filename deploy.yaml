@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <deployment-name>
+  labels:
+    app: <app-label>
+spec:
+  replicas: <number-of-replicas>
+  selector:
+    matchLabels:
+      app: <app-label>
+  template:
+    metadata:
+      labels:
+        app: <app-label>
+    spec:
+      containers:
+      - name: <container-name>
+        image: <docker-image>:<tag-v1>
+        ports:
+        - containerPort: <port-number>
