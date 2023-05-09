@@ -1,0 +1,36 @@
+##d. Create a secret for storing the MySQL root password.
+##kubectl create secret generic mysql-pass --from-literal=password=YOUR_PASSWORD
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <deployment-name>
+spec:
+  selector:
+    matchLabels:
+      app: <app-label>
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: <app-label>
+    spec:
+      containers:
+      - image: <mysql-image>
+        name: <container-name>
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: <mysql-secret-name>
+                key: password
+        ports:
+        - containerPort: <mysql-port>
+          name: <port-name>
+        volumeMounts:
+        - name: <volume-mount-name>
+          mountPath: <mount-path>
+      volumes:
+      - name: <volume-name>
+        persistentVolumeClaim:
+          claimName: <claim-name>
